@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autorizzazione Completata - EKO365</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 50px auto; 
+            padding: 20px;
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .success { 
+            background: #d4edda; 
+            border-left: 5px solid #28a745;
+            padding: 20px; 
+            margin: 20px 0;
+            border-radius: 5px; 
+        }
+        .info { 
+            background: #d1ecf1; 
+            border-left: 5px solid #17a2b8;
+            padding: 20px; 
+            margin: 20px 0;
+            border-radius: 5px; 
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            color: #0078d4;
+            margin: 0;
+        }
+        .details {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>EKO365</h1>
+            <p>Microsoft 365 Management Services</p>
+        </div>
+
+        <div class="success">
+            <h2>✅ Autorizzazione Completata con Successo!</h2>
+            <p><strong>Perfetto!</strong> L'applicazione EKO365 M365 Management è stata autorizzata nel vostro tenant Microsoft 365.</p>
+        </div>
+        
+        <div class="info">
+            <h3>📋 Cosa succede ora:</h3>
+            <ul>
+                <li>Il nostro team può ora accedere al vostro tenant M365 con permessi delegati</li>
+                <li>Riceverete una email di conferma entro 24 ore</li>
+                <li>Tutti gli accessi sono tracciati nei vostri log di audit</li>
+                <li>Potete revocare l'accesso in qualsiasi momento dal portale Azure</li>
+            </ul>
+            
+            <h3>📊 Informazioni per i vostri record:</h3>
+            <div class="details">
+                <ul>
+                    <li><strong>Nome App:</strong> M365-Management-Tool-EKO365</li>
+                    <li><strong>Application ID:</strong> 5d877c54-c777-49d1-abff-f9ad59fab734</li>
+                    <li><strong>Data Autorizzazione:</strong> <span id="timestamp"></span></li>
+                    <li><strong>Stato:</strong> <span id="status">Autorizzazione in corso...</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Supporto Tecnico:</strong></p>
+            <p>Email: <a href="mailto:supporto@eko365.com">supporto@eko365.com</a></p>
+            <p>Per qualsiasi domanda o assistenza, non esitate a contattarci.</p>
+            <hr>
+            <p><small>&copy; 2025 EKO365 - Tutti i diritti riservati</small></p>
+        </div>
+    </div>
+    
+    <script>
+        // Imposta timestamp corrente
+        document.getElementById('timestamp').textContent = new Date().toLocaleString('it-IT');
+        
+        // Controlla parametri URL per stato autorizzazione
+        const urlParams = new URLSearchParams(window.location.search);
+        const adminConsent = urlParams.get('admin_consent');
+        const error = urlParams.get('error');
+        
+        if (error) {
+            document.getElementById('status').innerHTML = '<span style="color: red;">❌ Errore: ' + 
+                (urlParams.get('error_description') || 'Autorizzazione non completata') + '</span>';
+        } else if (adminConsent === 'True') {
+            document.getElementById('status').innerHTML = '<span style="color: green;">✅ Autorizzazione confermata</span>';
+        } else {
+            document.getElementById('status').innerHTML = '<span style="color: orange;">⏳ In attesa di conferma</span>';
+        }
+        
+        // Log per debug (opzionale)
+        console.log('Consent page loaded:', {
+            admin_consent: adminConsent,
+            error: error,
+            tenant: urlParams.get('tenant'),
+            state: urlParams.get('state')
+        });
+    </script>
+</body>
+</html>
